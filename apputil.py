@@ -19,7 +19,7 @@ class GroupEstimate(object):
         return self.df_grouped
 
     def predict(self, X_):
-        predictions = np.array()
+        predictions = []
         index_list = self.df_grouped.index.map(list).to_list()
         print(index_list)
         for row in X_:
