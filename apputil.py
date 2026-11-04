@@ -36,10 +36,10 @@ class GroupEstimate(object):
             values = X_.loc[:, self.X_columns].to_numpy()
         else:
             values = np.asarray(X_)
-            if values.ndim == 1:
-                values = values.reshape(-1, 1)
-            else:
-                values = values.reshape(1, -1)
+            # if values.ndim == 1:
+            #     values = values.reshape(-1, 1)
+            # else:
+            #     values = values.reshape(1, -1)
 
         predictions = []
 
