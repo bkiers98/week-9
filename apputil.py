@@ -29,12 +29,21 @@ class GroupEstimate(object):
 
     def predict(self, X_):
         """
-        Given an array 'X_', predicts a value based on the grouped values of
-        self.df_grouped
+        Given an array or DataFrame, 'X_', predicts a value based on the
+        grouped values of self.df_grouped
         """
+        if isinstance(X_, pd.DataFrame):
+            values = X_.loc[:, self.X_columns].to_numpy()
+        else:
+            values = np.asarray(X_)
+            if values.ndim == 1:
+                values = values.reshape(-1, 1)
+            else:
+                values = values.reshape(1, -1)
+
         predictions = []
 
-        for row in X_:
+        for row in values:
             key = row[0] if len(self.X_columns) == 1 else tuple(row)
             try:
                 predictions.append(self.df_grouped.loc[key, self.target_name])
@@ -43,7 +52,7 @@ class GroupEstimate(object):
 
         predictions = np.array(predictions)
 
-        nan_count = np.isnan(predictions).any().sum()
+        nan_count = pd.isna(predictions).any().sum()
         print(f'Missing groups: {nan_count}')
 
         return np.array(predictions)
