@@ -4,7 +4,9 @@ import pandas as pd
 
 class GroupEstimate(object):
     def __init__(self, estimate):
-        self.estimate = estimate
+        if estimate not in ('mean', 'median'):
+            raise ValueError('Estimate must be "mean" or "median"')
+        self.estimate = estimate            
     
     def fit(self, X, y):
         self.X_columns = X.columns.tolist()
@@ -17,7 +19,7 @@ class GroupEstimate(object):
         return self.df_grouped
 
     def predict(self, X_):
-        predictions = []
+        predictions = np.array()
         index_list = self.df_grouped.index.map(list).to_list()
         print(index_list)
         for row in X_:
@@ -25,5 +27,5 @@ class GroupEstimate(object):
                 predictions.append(self.df_grouped.loc[(row[0], row[1]), self.target_name])
             except KeyError:
                 predictions.append(np.nan)
-        return predictions
+        return np.array(predictions)
     
