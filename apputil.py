@@ -23,8 +23,9 @@ class GroupEstimate(object):
         index_list = self.df_grouped.index.map(list).to_list()
         print(index_list)
         for row in X_:
+            key = row[0] if len(self.X_columns) == 1 else tuple(row)
             try:
-                predictions.append(self.df_grouped.loc[(row[0], row[1]), self.target_name])
+                predictions.append(self.df_grouped.loc[key, self.target_name])
             except KeyError:
                 predictions.append(np.nan)
         return np.array(predictions)
