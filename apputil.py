@@ -9,7 +9,7 @@ class GroupEstimate(object):
         if estimate not in ('mean', 'median'):
             raise ValueError('Estimate must be "mean" or "median"')
         self.estimate = estimate
-    
+
     def fit(self, X, y):
         """
         Given a DataFrame 'X' and 1-D array of continuous data 'y', returns
@@ -19,7 +19,7 @@ class GroupEstimate(object):
         self.X_columns = X.columns.tolist()
         self.target_name = y.name
         df = X.join(y)
-        
+
         if self.estimate == 'mean':
             self.df_grouped = df.groupby(self.X_columns).mean()
         elif self.estimate == 'median':
@@ -56,4 +56,3 @@ class GroupEstimate(object):
         print(f'Missing groups: {nan_count}')
 
         return np.array(predictions)
-    
